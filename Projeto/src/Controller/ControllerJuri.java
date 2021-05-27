@@ -25,9 +25,7 @@ public class ControllerJuri {
 		try {
 			this.openConn();
 			this.em.getTransaction().begin();
-			
 			this.em.persist(cj);
-			
 			this.em.getTransaction().commit();
 			this.closeConn();
 		} catch (Exception e) {
