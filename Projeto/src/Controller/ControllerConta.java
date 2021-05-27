@@ -1,5 +1,8 @@
 package Controller;
 
+import java.util.ArrayList;
+
+import javax.persistence.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -32,6 +35,26 @@ public class ControllerConta {
 			this.em.getTransaction().rollback();
 			e.printStackTrace();
 		}
+	}
+	
+	public ContaComum find(int nc) {
+		String hql = "SELECT o FROM ContaComum o WHERE o.nro_conta = '" + nc + "'";
+		this.openConn();
+		Query q = this.em.createQuery(hql);
+		ContaComum result = (ContaComum) q.getResultList().get(0);
+		this.closeConn();
+		return result;
+	}
+	
+	public ArrayList<ContaComum> list(){
+		String hql = "SELECT o FROM ContaComum o";
+		this.openConn();
+		
+		Query query = (Query) this.em.createQuery(hql);
+		ArrayList<ContaComum> result = (ArrayList<ContaComum>) query.getResultList();
+		
+		this.closeConn();
+		return result;
 	}
 
 }
