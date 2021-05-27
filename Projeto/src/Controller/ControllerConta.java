@@ -25,13 +25,9 @@ public class ControllerConta {
 		try {
 			this.openConn();
 			this.em.getTransaction().begin();
-			
 			this.em.persist(c);
-			
 			this.em.getTransaction().commit();
 			this.closeConn();
-			
-			
 		} catch (Exception e) {
 			this.em.getTransaction().rollback();
 			e.printStackTrace();
