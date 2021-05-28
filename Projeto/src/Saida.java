@@ -1,7 +1,9 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import Controller.ControllerConta;
 import Controller.ControllerJuri;
+import Controller.ControllerMovimentacao;
 import Controller.ControllerPessoa;
 import Controller.ControllerPessoaF;
 import Controller.ControllerPessoaJ;
@@ -37,8 +39,8 @@ public class Saida {
 //		//Inicia o programa
 		System.out.print("BEM VINDO!\n");
 		System.out.print("Vamos começar.\n");
-		System.out.print("1 - Registrar conta \n2 - Fazer movimentação da conta\n");
-		int opm = s.nextInt();
+		System.out.print("1 - Registrar conta \n2 - Fazer movimentação da conta\n3 - Listar contas\n");
+			int opm = s.nextInt();
 
 		// Dicisão de Registro de conta ou movimentação
 		switch (opm) {
@@ -166,13 +168,14 @@ public class Saida {
 			switch (opm2) {
 			case 1:
 				ControllerConta crud = new ControllerConta();
+				ControllerMovimentacao cm = new ControllerMovimentacao();
 				
-				System.out.println("Infome o numero da conta: ");
-					ContaComum t = crud.find(s.nextInt());
-				
-				System.out.println();
+				System.out.println("Infome o ID da conta: ");
+					ContaComum c = crud.find(s.nextInt());
 					
-				System.out.println(t.getNro_conta());
+				System.out.println("Atualmente você tem R$" + c.getSaldo() + " na sua conta.");
+				System.out.println("Digite o valor que deseja depositar: ");
+					cm.deposito(s.nextDouble());
 				break;
 
 			case 2:
@@ -180,7 +183,18 @@ public class Saida {
 				break;
 			}
 			break;
+		case 3:
+			ControllerConta crud = new ControllerConta();
+			System.out.println("[LISTA DE CONTAS]\n");
+			
+			ArrayList<ContaComum> lista = crud.list();
+			for(ContaComum contacom : lista) {
+				System.out.println("ID - NUM - SALDO");
+				System.out.println(contacom.getId_conta() + " - " + 
+								   contacom.getNro_conta() + " - " + 
+								   contacom.getSaldo());
+			}
+			break;
 		}
-
 	}
 }

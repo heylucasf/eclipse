@@ -37,13 +37,51 @@ public class ControllerConta {
 		}
 	}
 	
-	public ContaComum find(int nc) {
-		String hql = "SELECT o FROM ContaComum o WHERE o.nro_conta = '" + nc + "'";
-		this.openConn();
-		Query q = this.em.createQuery(hql);
-		ContaComum result = (ContaComum) q.getResultList().get(0);
-		this.closeConn();
-		return result;
+	public void update (ContaComum c) {
+		try {
+			this.openConn();
+			this.em.getTransaction().begin();
+			this.em.merge(c);
+			this.em.getTransaction().commit();
+			this.closeConn();
+		} catch (Exception e) {
+			this.em.getTransaction().rollback();
+			e.printStackTrace();
+		}
+	}
+	
+	public void delete (int id) {
+		try {
+			this.openConn();
+			this.em.getTransaction().begin();
+			ContaComum cc = this.em.find(ContaComum.class, id);
+			this.em.remove(cc);
+			this.em.getTransaction().commit();
+			this.closeConn();
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.em.getTransaction().rollback();
+		}
+	}
+	
+	public ContaComum find(int id) {
+		ContaComum aux = null;
+		try {
+			//System.out.println("Entrou no try");
+			this.openConn();
+			this.em.getTransaction().begin();
+			aux = this.em.find(ContaComum.class, id);
+			//System.out.println("AUX " + aux);
+			this.em.getTransaction().commit();
+			//System.out.println("Passou pelo commit");
+			this.closeConn();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.em.getTransaction().rollback();
+			//System.out.println("FOI PARA O CATCH");
+		}
+		return aux;
 	}
 	
 	public ArrayList<ContaComum> list(){
